@@ -30,10 +30,10 @@ class MyAdd(torch.nn.Module):
 
 model = MyAdd()
 input = torch.rand(1, 3, 10, 10)
-torch.onnx.export(model, (input, input), 'my_add.onnx')
+torch.onnx.export(model, (input, input), 'onnx/my_add.onnx')
 torch_output = model(input, input).detach().numpy()
 
-sess = onnxruntime.InferenceSession('my_add.onnx')
+sess = onnxruntime.InferenceSession('onnx/my_add.onnx')
 ort_output = sess.run(None, {'a': input.numpy(), 'b': input.numpy()})[0]
 
 assert np.allclose(torch_output, ort_output)
